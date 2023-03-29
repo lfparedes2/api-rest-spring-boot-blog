@@ -1,0 +1,7 @@
+package com.sistema.blog.servicio;
+
+public interface PublicacionServicio {
+	
+	public publica
+
+}

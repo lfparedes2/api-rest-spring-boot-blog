@@ -1,0 +1,58 @@
+package com.sistema.blog.servicio;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sistema.blog.dto.ComentarioDTO;
+import com.sistema.blog.entidades.Comentario;
+import com.sistema.blog.entidades.Publicacion;
+import com.sistema.blog.excepciones.ResourceNotFoundExcepcion;
+import com.sistema.blog.repositorio.ComentarioRepositorio;
+import com.sistema.blog.repositorio.PublicacionRepositorio;
+
+@Service
+public class ComentarioServicioImpl implements ComentarioServicio{
+	
+	@Autowired
+	private ComentarioRepositorio comentarioRepositorio;
+	
+	@Autowired
+	private PublicacionRepositorio publicacionRepositorio;
+	
+	@Override
+	public ComentarioDTO crearComentario(Long publicacionId, ComentarioDTO comentarioDTO) {
+		Comentario comentario = mapearEntidad(comentarioDTO);
+		Publicacion publicacion = publicacionRepositorio.findById(publicacionId).orElseThrow(() -> new ResourceNotFoundExcepcion("Publicacion", "id", publicacionId));
+		comentario.setPublicacion(publicacion);
+		Comentario nuevoComentario = comentarioRepositorio.save(comentario);
+		return mapearDTO(comentario);
+		
+	}
+	
+	private ComentarioDTO mapearDTO(Comentario comentario) {		
+		ComentarioDTO comentarioDTO = new ComentarioDTO();
+		comentarioDTO.setId(comentario.getId());
+		comentarioDTO.setNombre(comentario.getNombre());
+		comentarioDTO.setEmail(comentario.getEmail());
+		comentarioDTO.setCuerpo(comentario.getCuerpo());
+		return comentarioDTO;		
+	}
+	
+	private Comentario mapearEntidad(ComentarioDTO comentarioDTO) {
+		Comentario comentario = new Comentario();
+		comentario.setId(comentarioDTO.getId());
+		comentario.setNombre(comentarioDTO.getNombre());
+		comentario.setEmail(comentarioDTO.getEmail());
+		comentario.setCuerpo(comentarioDTO.getCuerpo());
+		return comentario;		
+	}
+
+	@Override
+	public List<ComentarioDTO> obtenerComentariosPorPublicacionId(Long publicacionId) {
+		List<Comentario> comentarios = comentarioRepositorio.findById(publicacionId)
+		return null;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.sistema.blog.repositorio;
+
+public interface PublicacionRepositorio {
+
+}

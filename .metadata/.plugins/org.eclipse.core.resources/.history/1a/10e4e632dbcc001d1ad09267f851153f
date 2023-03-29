@@ -1,0 +1,22 @@
+package com.sistema.blog.servicio;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sistema.blog.dto.PublicacionDTO;
+import com.sistema.blog.repositorio.PublicacionRepositorio;
+
+@Service
+public class PublicacionServicioImpl implements PublicacionServicio{
+	
+	@Autowired
+	private PublicacionRepositorio publicacionRepositorio;
+	
+	
+	@Override
+	public PublicacionDTO crearPublicacion(PublicacionDTO publicacionDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.sistema.blog.controlador;
+
+public class ComentarioControlador {
+
+}

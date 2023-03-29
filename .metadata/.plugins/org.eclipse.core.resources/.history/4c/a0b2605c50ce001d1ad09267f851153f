@@ -1,0 +1,45 @@
+package com.sistema.blog.servicio;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sistema.blog.dto.ComentarioDTO;
+import com.sistema.blog.entidades.Comentario;
+import com.sistema.blog.repositorio.ComentarioRepositorio;
+import com.sistema.blog.repositorio.PublicacionRepositorio;
+
+@Service
+public class ComentarioServicioImpl implements ComentarioServicio{
+	
+	@Autowired
+	private ComentarioRepositorio comentarioRepositorio;
+	
+	@Autowired
+	private PublicacionRepositorio publicacionRepositorio;
+	
+	@Override
+	public ComentarioDTO crearComentario(Long publicacionId, ComentarioDTO comentarioDTO) {
+		
+		
+		return null;
+	}
+	
+	private ComentarioDTO mapearDTO(Comentario comentario) {		
+		ComentarioDTO comentarioDTO = new ComentarioDTO();
+		comentarioDTO.setId(comentario.getId());
+		comentarioDTO.setNombre(comentario.getNombre());
+		comentarioDTO.setEmail(comentario.getEmail());
+		comentarioDTO.setCuerpo(comentario.getCuerpo());
+		return comentarioDTO;		
+	}
+	
+	private Comentario mapearEntidad(ComentarioDTO comentarioDTO) {
+		Comentario comentario = new Comentario();
+		comentario.setId(comentarioDTO.getId());
+		comentario.setNombre(comentarioDTO.getNombre());
+		comentario.setEmail(comentarioDTO.getEmail());
+		comentario.setCuerpo(comentarioDTO.getCuerpo());
+		return comentario;		
+	}
+
+}
