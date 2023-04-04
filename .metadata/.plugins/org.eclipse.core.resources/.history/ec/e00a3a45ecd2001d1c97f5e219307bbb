@@ -1,0 +1,5 @@
+package com.sistema.blog.servicio;
+
+public interface UsuarioRepositorio {
+
+}

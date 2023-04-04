@@ -3,7 +3,7 @@ package com.sistema.blog.servicio;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hibernate.annotations.SortType;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +20,15 @@ import com.sistema.blog.repositorio.PublicacionRepositorio;
 @Service
 public class PublicacionServicioImpl implements PublicacionServicio{
 	
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@Autowired
 	private PublicacionRepositorio publicacionRepositorio;
 	
 	
+	@SuppressWarnings("unused")
 	@Override
 	public PublicacionDTO crearPublicacion(PublicacionDTO publicacionDTO) {
 		
@@ -49,28 +54,7 @@ public class PublicacionServicioImpl implements PublicacionServicio{
 		publicacionRespuesta.setTotalPagina(publicaciones.getTotalPages());
 		publicacionRespuesta.setUltima(publicaciones.isLast());
 		return publicacionRespuesta;
-	}
-	
-	private PublicacionDTO mapearDTO(Publicacion publicacion) {
-		PublicacionDTO publicacionDTO = new PublicacionDTO();
-		publicacionDTO.setId(publicacion.getId());
-		publicacionDTO.setTitulo(publicacion.getTitulo());
-		publicacionDTO.setDescripcion(publicacion.getDescripcion());
-		publicacionDTO.setContenido(publicacion.getContenido());
-		
-		return publicacionDTO;
-		
-	}
-	
-	private Publicacion mapearEntidad(PublicacionDTO publicacionDTO) {
-		Publicacion publicacion = new Publicacion();
-		publicacion.setTitulo(publicacionDTO.getTitulo());
-		publicacion.setDescripcion(publicacionDTO.getDescripcion());
-		publicacion.setContenido(publicacionDTO.getContenido());
-		return publicacion;
-		
-	}
-
+	}	
 
 	@Override
 	public PublicacionDTO obtenerPublicacionPorId(Long id) {
@@ -78,23 +62,30 @@ public class PublicacionServicioImpl implements PublicacionServicio{
 		return mapearDTO(publicacion);
 	}
 
-
 	@Override
 	public PublicacionDTO actualizarPublicacion(PublicacionDTO publicacionDTO, Long id) {
 		Publicacion publicacion = publicacionRepositorio.findById(id).orElseThrow(() -> new ResourceNotFoundExcepcion("Publicacion", "id", id));
 		publicacion.setTitulo(publicacionDTO.getTitulo());
 		publicacion.setDescripcion(publicacionDTO.getDescripcion());
-		publicacion.setContenido(publicacionDTO.getContenido());
-		
+		publicacion.setContenido(publicacionDTO.getContenido());		
 		Publicacion publicacionActualizada = publicacionRepositorio.save(publicacion);		
 		return mapearDTO(publicacionActualizada);
 	}
-
 
 	@Override
 	public void eliminarPublicacion(Long id) {
 		Publicacion publicacion = publicacionRepositorio.findById(id).orElseThrow(() -> new ResourceNotFoundExcepcion("Publicacion", "id", id));		
 		publicacionRepositorio.delete(publicacion);
+	}
+	
+	private PublicacionDTO mapearDTO(Publicacion publicacion) {
+		PublicacionDTO publicacionDTO = modelMapper.map(publicacion, PublicacionDTO.class); 		
+		return publicacionDTO;		
+	}
+	
+	private Publicacion mapearEntidad(PublicacionDTO publicacionDTO) {
+		Publicacion publicacion = modelMapper.map(publicacionDTO, Publicacion.class);		
+		return publicacion;		
 	}
 
 }

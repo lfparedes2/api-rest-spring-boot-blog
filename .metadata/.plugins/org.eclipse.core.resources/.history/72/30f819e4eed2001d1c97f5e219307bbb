@@ -1,0 +1,5 @@
+package com.sistema.blog.utilerias;
+
+public class PasswordEncoderGenerator {
+
+}

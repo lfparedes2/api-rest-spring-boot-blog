@@ -1,0 +1,8 @@
+package com.sistema.blog.configuracion;
+
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@SuppressWarnings("deprecation")
+class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+}

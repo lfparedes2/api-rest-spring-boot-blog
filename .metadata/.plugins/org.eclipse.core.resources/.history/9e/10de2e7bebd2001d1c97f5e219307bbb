@@ -1,0 +1,13 @@
+package com.sistema.blog.entidades;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "usuario")
+public class Usuario {
+	
+	private Long id;
+	private String usuario;
+
+}

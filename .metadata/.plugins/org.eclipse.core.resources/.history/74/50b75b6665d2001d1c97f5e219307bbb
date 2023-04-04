@@ -1,0 +1,5 @@
+package com.sistema.blog.configuracion;
+
+public class SecurityConfig {
+
+}
