@@ -20,6 +20,8 @@ import com.sistema.blog.dto.LoginDTO;
 import com.sistema.blog.dto.RegistroDTO;
 import com.sistema.blog.entidades.Rol;
 import com.sistema.blog.entidades.Usuario;
+import com.sistema.blog.seguridad.JWTAuthResponseDTO;
+import com.sistema.blog.seguridad.JwtTokenProvider;
 import com.sistema.blog.servicio.RolRepositorio;
 import com.sistema.blog.servicio.UsuarioRepositorio;
 
@@ -39,14 +41,20 @@ public class AuthControlador {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+	
 	
 	
 	@PostMapping("/iniciarSesion")
-	public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO){
+	public ResponseEntity<JWTAuthResponseDTO> authenticateUser(@RequestBody LoginDTO loginDTO){
 		
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(null);
-		return new ResponseEntity<>("Inicio de sesion exitosa!",HttpStatus.OK);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		//obtener token jwt provider
+		String token=jwtTokenProvider.generarToken(authentication);
+		
+		return ResponseEntity.ok(new JWTAuthResponseDTO(token));
 		
 	}
 	

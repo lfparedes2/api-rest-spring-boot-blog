@@ -1,0 +1,5 @@
+package com.sistema.blog.seguridad;
+
+public class JwtAuthenticationFilter {
+
+}
